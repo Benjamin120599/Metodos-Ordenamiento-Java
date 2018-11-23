@@ -188,6 +188,7 @@ class MetodosOrdenamiento {
 		
 		mostrarDatosEficiencia(contRecorrido6, contComparaciones6, contIntercambios6, tiempoFinal);
 		
+		
 	}
 	
 	public void mostrarVector(int[] vector) {
