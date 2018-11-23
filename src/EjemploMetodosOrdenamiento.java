@@ -190,6 +190,55 @@ class MetodosOrdenamiento {
 		
 		
 	}
+
+	public void ordenamientoQuickSort(int[] numeros, int primero, int ultimo) {
+		
+		int contRecorrido7=0, contComparaciones7=0, contIntercambios7=0;
+		long tiempoFinal=0;
+		
+		int i,j,pivote,aux;
+		i=primero;
+		j=ultimo;
+		
+		pivote=numeros[primero];
+		
+		long tiempoInicial = System.nanoTime();
+		
+		while(i < j) {
+			while(numeros[i] <= pivote && i<j) {
+				i++;
+			}
+			while(numeros[j] > pivote) {
+				j--;
+			}
+			
+			if(i < j) {
+				contComparaciones7++;
+				aux = numeros[i];
+				numeros[i] = numeros[j];
+				numeros[j] = aux;
+				contIntercambios7++;
+			}
+		}
+		
+		contRecorrido7++;
+		numeros[primero] = numeros[j];
+		numeros[j] = pivote;
+		contIntercambios7++;
+		
+		if(primero < j-1) {
+			ordenamientoQuickSort(numeros, primero, j-1);
+		}
+		if(j+1 < ultimo) {
+			ordenamientoQuickSort(numeros, j+1, ultimo);
+		}
+		
+		mostrarVector(numeros);
+		tiempoFinal = System.nanoTime() - tiempoInicial;
+		
+		mostrarDatosEficiencia(contRecorrido7, contComparaciones7, contIntercambios7, tiempoFinal); 		
+		
+	}
 	
 	public void mostrarVector(int[] vector) {
 		
@@ -279,6 +328,7 @@ public class EjemploMetodosOrdenamiento {
 			System.out.println("2) Ordenamiento Por Selección.");
 			System.out.println("3) Ordenamiento Por Inserción.");
 			System.out.println("4) Ordenamiento ShellSort.");
+			System.out.println("5) Ordenamiento QuickSort.");
 			System.out.println("0) Salir.");
 			System.out.println("----------------------------------------------------------------");
 			System.out.println();
@@ -366,6 +416,22 @@ public class EjemploMetodosOrdenamiento {
 					mo.ordenamientoShellSort(mo.vector100000().clone());
 					mo.ordenamientoShellSort(mo.vector1000000().clone());
 					//mo.ordenamientoShellSort(edades);
+					
+					System.out.println();
+					System.out.println("---------------------------------------------------------------------------------");
+					System.out.println();
+					break;
+				case 5:
+					System.out.println();
+					System.out.println("---------------------------------------------------------------------------------");
+					System.out.println();
+					
+					System.out.println("=========== ORDENAMIENTO QUICKSORT ===========\n");
+					mo.ordenamientoQuickSort(mo.vector1000().clone(), mo.vector1000()[0], mo.vector1000()[mo.vector1000().length-1]);
+					mo.ordenamientoQuickSort(mo.vector10000().clone(), mo.vector10000()[0], mo.vector10000()[mo.vector10000().length-1]);
+					mo.ordenamientoQuickSort(mo.vector100000().clone(), mo.vector100000()[0], mo.vector100000()[mo.vector100000().length-1]);
+					mo.ordenamientoQuickSort(mo.vector1000000().clone(), mo.vector1000000()[0], mo.vector1000000()[mo.vector1000000().length-1]);
+					//mo.ordenamientoShellSort(edades, edades[0], edades[edades.length+1]);
 					
 					System.out.println();
 					System.out.println("---------------------------------------------------------------------------------");
