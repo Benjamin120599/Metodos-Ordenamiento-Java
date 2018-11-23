@@ -200,7 +200,7 @@ class MetodosOrdenamiento {
 		i=primero;
 		j=ultimo;
 		
-		pivote=numeros[primero];
+		pivote = numeros[primero];
 		
 		long tiempoInicial = System.nanoTime();
 		
@@ -237,6 +237,57 @@ class MetodosOrdenamiento {
 		tiempoFinal = System.nanoTime() - tiempoInicial;
 		
 		mostrarDatosEficiencia(contRecorrido7, contComparaciones7, contIntercambios7, tiempoFinal); 		
+		
+	}
+
+	public void ordenamientoRadixSort(int[] numeros) {
+	
+		int contRecorrido8=0, contComparaciones8=0, contIntercambios8=0;
+		long tiempoFinal=0;
+		
+		long tiempoInicial = System.nanoTime();
+		
+		if(numeros.length == 0)
+			return;
+		
+		int[][] np = new int[numeros.length][2];
+		int[] q = new int[0x100];
+		int i, j, k, l, f = 0;
+	
+		for(k=0; k<4; k++) {
+			
+			for(i=0; i<np.length-1; i++) 
+				np[i][1] = i+1;
+			np[i][1] = -1;
+			for(i=0; i < q.length; i++)
+				q[i] = -1;
+			for(f=i=0; i<numeros.length; i++){
+				j = ((0xFF<<(k<<3))&numeros[i])>>(k<<3);
+				if(q[j] == -1)
+					l = q[j] = f;
+				else {
+					l = q[j];
+					while(np[l][1] != -1)
+						l = np[l][1];
+					np[l][1] = f;
+					l = np[l][1];
+				}
+				
+				f = np[f][1];
+				np[l][0] = numeros[i];
+				np[l][1] = -1;
+			}
+			for(l=q[i=j=0]; i<0x100; i++)
+				for(l=q[i]; l!=-1; l=np[l][1])
+					numeros[j++] = np[l][0];
+			
+		}
+		
+		mostrarVector(numeros);
+		tiempoFinal = System.nanoTime() - tiempoInicial;
+		
+		mostrarDatosEficiencia(contRecorrido8, contComparaciones8, contIntercambios8, tiempoFinal);   
+		
 		
 	}
 	
@@ -329,6 +380,7 @@ public class EjemploMetodosOrdenamiento {
 			System.out.println("3) Ordenamiento Por Inserción.");
 			System.out.println("4) Ordenamiento ShellSort.");
 			System.out.println("5) Ordenamiento QuickSort.");
+			System.out.println("6) Ordenamiento RadixSort.");
 			System.out.println("0) Salir.");
 			System.out.println("----------------------------------------------------------------");
 			System.out.println();
@@ -427,16 +479,34 @@ public class EjemploMetodosOrdenamiento {
 					System.out.println();
 					
 					System.out.println("=========== ORDENAMIENTO QUICKSORT ===========\n");
-					mo.ordenamientoQuickSort(mo.vector1000().clone(), mo.vector1000()[0], mo.vector1000()[mo.vector1000().length-1]);
-					mo.ordenamientoQuickSort(mo.vector10000().clone(), mo.vector10000()[0], mo.vector10000()[mo.vector10000().length-1]);
-					mo.ordenamientoQuickSort(mo.vector100000().clone(), mo.vector100000()[0], mo.vector100000()[mo.vector100000().length-1]);
-					mo.ordenamientoQuickSort(mo.vector1000000().clone(), mo.vector1000000()[0], mo.vector1000000()[mo.vector1000000().length-1]);
-					//mo.ordenamientoShellSort(edades, edades[0], edades[edades.length+1]);
+					//mo.ordenamientoQuickSort(mo.vector1000().clone(), mo.vector1000()[0], mo.vector1000()[mo.vector1000().length-1]);
+					//mo.ordenamientoQuickSort(mo.vector10000().clone(), mo.vector10000()[0], mo.vector10000()[mo.vector10000().length-1]);
+					//mo.ordenamientoQuickSort(mo.vector100000().clone(), mo.vector100000()[0], mo.vector100000()[mo.vector100000().length-1]);
+					//mo.ordenamientoQuickSort(mo.vector1000000().clone(), mo.vector1000000()[0], mo.vector1000000()[mo.vector1000000().length-1]);
+					mo.ordenamientoQuickSort(edades, edades[0], edades[edades.length-1]);
 					
 					System.out.println();
 					System.out.println("---------------------------------------------------------------------------------");
 					System.out.println();
 					break;
+				
+				case 6:
+					System.out.println();
+					System.out.println("---------------------------------------------------------------------------------");
+					System.out.println();
+					
+					System.out.println("=========== ORDENAMIENTO RADIXSORT ===========\n");
+					mo.ordenamientoRadixSort(mo.vector1000().clone());
+					mo.ordenamientoRadixSort(mo.vector10000().clone());
+					mo.ordenamientoRadixSort(mo.vector100000().clone());
+					mo.ordenamientoRadixSort(mo.vector1000000().clone());
+					//mo.ordenamientoRadixSort(edades);
+					
+					System.out.println();
+					System.out.println("---------------------------------------------------------------------------------");
+					System.out.println();
+					break;
+					
 				case 0:
 					System.out.println("S A L I E N D O . . .");
 					break;
