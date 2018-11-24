@@ -191,53 +191,44 @@ class MetodosOrdenamiento {
 		
 	}
 
-	public void ordenamientoQuickSort(int[] numeros, int primero, int ultimo) {
+	public void ordenamientoQuickSort(int[] vector, int izquierda, int derecha) {
 		
 		int contRecorrido7=0, contComparaciones7=0, contIntercambios7=0;
 		long tiempoFinal=0;
 		
-		int i,j,pivote,aux;
-		i=primero;
-		j=ultimo;
-		
-		pivote = numeros[primero];
-		
 		long tiempoInicial = System.nanoTime();
 		
-		while(i < j) {
-			while(numeros[i] <= pivote && i<j) {
-				i++;
-			}
-			while(numeros[j] > pivote) {
-				j--;
-			}
-			
-			if(i < j) {
-				contComparaciones7++;
-				aux = numeros[i];
-				numeros[i] = numeros[j];
-				numeros[j] = aux;
-				contIntercambios7++;
-			}
-		}
+		int pivote = vector[izquierda];
+        int i = izquierda;
+        int j = derecha;
+        int auxIntercambio;
+        while (i < j) {
+            while (vector[i] <= pivote && i < j) {
+                i++;
+            }
+            while (vector[j] > pivote) {
+                j--;
+            }
+            if (i < j) {
+                auxIntercambio = vector[i];
+                vector[i] = vector[j];
+                vector[j] = auxIntercambio;
+            }
+        }
+        vector[izquierda] = vector[j];
+        vector[j] = pivote;
+        if (izquierda < j - 1) {
+            ordenamientoQuickSort(vector, izquierda, j - 1);
+        }
+        if (j + 1 < derecha) {
+        	ordenamientoQuickSort(vector, j + 1, derecha);
+        }
 		
-		contRecorrido7++;
-		numeros[primero] = numeros[j];
-		numeros[j] = pivote;
-		contIntercambios7++;
-		
-		if(primero < j-1) {
-			ordenamientoQuickSort(numeros, primero, j-1);
-		}
-		if(j+1 < ultimo) {
-			ordenamientoQuickSort(numeros, j+1, ultimo);
-		}
-		
-		mostrarVector(numeros);
+		mostrarVector(vector);
 		tiempoFinal = System.nanoTime() - tiempoInicial;
 		
 		mostrarDatosEficiencia(contRecorrido7, contComparaciones7, contIntercambios7, tiempoFinal); 		
-		
+	
 	}
 
 	public void ordenamientoRadixSort(int[] numeros) {
@@ -370,6 +361,12 @@ public class EjemploMetodosOrdenamiento {
 		MetodosOrdenamiento mo = new MetodosOrdenamiento();
 		int[] edades = {34, 25, 12, 87, 9, 10, 34, 37, 24, 2};
 		
+		int[] arreglo1 = mo.vector1000();
+		int[] arreglo2 = mo.vector10000();
+		int[] arreglo3 = mo.vector100000();
+		int[] arreglo4 = mo.vector1000000();
+		
+		
 		int opcion=0;
 		
 		do {
@@ -391,10 +388,10 @@ public class EjemploMetodosOrdenamiento {
 				case 1:
 					System.out.println("\n");
 					System.out.println("=========== ORDENAMIENTO CON BURBUJA 1 ===========\n");
-					mo.ordenamientoBurbuja1(mo.vector1000().clone());
-					mo.ordenamientoBurbuja1(mo.vector10000().clone());
-					mo.ordenamientoBurbuja1(mo.vector100000().clone());
-					mo.ordenamientoBurbuja1(mo.vector1000000().clone());
+					mo.ordenamientoBurbuja1(arreglo1.clone());
+					mo.ordenamientoBurbuja1(arreglo2.clone());
+					mo.ordenamientoBurbuja1(arreglo3.clone());
+					mo.ordenamientoBurbuja1(arreglo4.clone());
 					//mo.ordenamientoBurbuja1(edades);
 					
 					System.out.println();
@@ -402,10 +399,10 @@ public class EjemploMetodosOrdenamiento {
 					System.out.println();
 				
 					System.out.println("=========== ORDENAMIENTO CON BURBUJA 2 ===========\n");
-					mo.ordenamientoBurbuja2(mo.vector1000().clone());
-					mo.ordenamientoBurbuja2(mo.vector10000().clone());
-					mo.ordenamientoBurbuja2(mo.vector100000().clone());
-					mo.ordenamientoBurbuja2(mo.vector1000000().clone());
+					mo.ordenamientoBurbuja2(arreglo1.clone());
+					mo.ordenamientoBurbuja2(arreglo2.clone());
+					mo.ordenamientoBurbuja2(arreglo3.clone());
+					mo.ordenamientoBurbuja2(arreglo4.clone());
 					//mo.ordenamientoBurbuja2(edades);
 					
 					System.out.println();
@@ -413,10 +410,10 @@ public class EjemploMetodosOrdenamiento {
 					System.out.println();
 					
 					System.out.println("=========== ORDENAMIENTO CON BURBUJA 3 ===========\n"); //ESTÁ MAL
-					mo.ordenamientoBurbuja3(mo.vector1000().clone());
-					mo.ordenamientoBurbuja3(mo.vector10000().clone());
-					mo.ordenamientoBurbuja3(mo.vector100000().clone());
-					mo.ordenamientoBurbuja3(mo.vector1000000().clone());
+					mo.ordenamientoBurbuja3(arreglo1.clone());
+					mo.ordenamientoBurbuja3(arreglo2.clone());
+					mo.ordenamientoBurbuja3(arreglo3.clone());
+					mo.ordenamientoBurbuja3(arreglo4.clone());
 					//mo.ordenamientoBurbuja3(edades);
 					
 					System.out.println();
@@ -430,10 +427,10 @@ public class EjemploMetodosOrdenamiento {
 					System.out.println();
 					
 					System.out.println("=========== ORDENAMIENTO POR SELECCION ===========\n");
-					mo.ordenamientoPorSeleccion(mo.vector1000().clone());
-					mo.ordenamientoPorSeleccion(mo.vector10000().clone());
-					mo.ordenamientoPorSeleccion(mo.vector100000().clone());
-					mo.ordenamientoPorSeleccion(mo.vector1000000().clone());
+					mo.ordenamientoPorSeleccion(arreglo1.clone());
+					mo.ordenamientoPorSeleccion(arreglo2.clone());
+					mo.ordenamientoPorSeleccion(arreglo3.clone());
+					mo.ordenamientoPorSeleccion(arreglo4.clone());
 					//mo.ordenamientoPorSeleccion(edades);
 
 					System.out.println();
@@ -447,10 +444,10 @@ public class EjemploMetodosOrdenamiento {
 					System.out.println();
 					
 					System.out.println("=========== ORDENAMIENTO POR INSERCION ===========\n");
-					mo.ordenamientoPorInsercion(mo.vector1000().clone());
-					mo.ordenamientoPorSeleccion(mo.vector10000().clone());
-					mo.ordenamientoPorSeleccion(mo.vector100000().clone());
-					mo.ordenamientoPorSeleccion(mo.vector1000000().clone());
+					mo.ordenamientoPorInsercion(arreglo1.clone());
+					mo.ordenamientoPorSeleccion(arreglo2.clone());
+					mo.ordenamientoPorSeleccion(arreglo3.clone());
+					mo.ordenamientoPorSeleccion(arreglo4.clone());
 					//mo.ordenamientoPorInsercion(edades);
 					
 					System.out.println();
@@ -463,10 +460,10 @@ public class EjemploMetodosOrdenamiento {
 					System.out.println();
 					
 					System.out.println("=========== ORDENAMIENTO SHELLSORT ===========\n");
-					mo.ordenamientoShellSort(mo.vector1000().clone());
-					mo.ordenamientoShellSort(mo.vector10000().clone());
-					mo.ordenamientoShellSort(mo.vector100000().clone());
-					mo.ordenamientoShellSort(mo.vector1000000().clone());
+					mo.ordenamientoShellSort(arreglo1.clone());
+					mo.ordenamientoShellSort(arreglo2.clone());
+					mo.ordenamientoShellSort(arreglo3.clone());
+					mo.ordenamientoShellSort(arreglo4.clone());
 					//mo.ordenamientoShellSort(edades);
 					
 					System.out.println();
@@ -479,11 +476,11 @@ public class EjemploMetodosOrdenamiento {
 					System.out.println();
 					
 					System.out.println("=========== ORDENAMIENTO QUICKSORT ===========\n");
-					//mo.ordenamientoQuickSort(mo.vector1000().clone(), mo.vector1000()[0], mo.vector1000()[mo.vector1000().length-1]);
-					//mo.ordenamientoQuickSort(mo.vector10000().clone(), mo.vector10000()[0], mo.vector10000()[mo.vector10000().length-1]);
-					//mo.ordenamientoQuickSort(mo.vector100000().clone(), mo.vector100000()[0], mo.vector100000()[mo.vector100000().length-1]);
-					//mo.ordenamientoQuickSort(mo.vector1000000().clone(), mo.vector1000000()[0], mo.vector1000000()[mo.vector1000000().length-1]);
-					mo.ordenamientoQuickSort(edades, edades[0], edades[edades.length-1]);
+					mo.ordenamientoQuickSort(arreglo1.clone(), 0, arreglo1.clone().length-1);
+					mo.ordenamientoQuickSort(arreglo2.clone(), 0, arreglo2.clone().length-1);
+					mo.ordenamientoQuickSort(arreglo3.clone(), 0, arreglo3.clone().length-1);
+					mo.ordenamientoQuickSort(arreglo4.clone(), 0, arreglo4.clone().length-1);
+					//mo.ordenamientoQuickSort(edades, 0, edades[edades.length-1]);
 					
 					System.out.println();
 					System.out.println("---------------------------------------------------------------------------------");
@@ -496,10 +493,10 @@ public class EjemploMetodosOrdenamiento {
 					System.out.println();
 					
 					System.out.println("=========== ORDENAMIENTO RADIXSORT ===========\n");
-					mo.ordenamientoRadixSort(mo.vector1000().clone());
-					mo.ordenamientoRadixSort(mo.vector10000().clone());
-					mo.ordenamientoRadixSort(mo.vector100000().clone());
-					mo.ordenamientoRadixSort(mo.vector1000000().clone());
+					mo.ordenamientoRadixSort(arreglo1.clone());
+					mo.ordenamientoRadixSort(arreglo2.clone());
+					mo.ordenamientoRadixSort(arreglo3.clone());
+					mo.ordenamientoRadixSort(arreglo4.clone());
 					//mo.ordenamientoRadixSort(edades);
 					
 					System.out.println();
