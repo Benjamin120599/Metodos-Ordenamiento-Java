@@ -63,7 +63,41 @@ class MezclaNatural {
 	
 	public static void ordenamientoMezclaNatural(Comparable[] a, int primero, int ultimo) {
 		
+		int i = primero;
+		int j = 0;
+		int medio = 0;
+		int az = 0;
+		
+		while(true) {
+			i=0;
+			while(i < a.length) {
+				if(i == a.length - 1) {
+					break;
+				} else if(a[i].compareTo(i+1) > 0) {
+					break;
+				}
+				i++;
+			}
+			j = i+1;
+			while(j < a.length) {
+				if(j == a.length-1) {
+					break;
+				} else if(a[j].compareTo(a[j+1]) > 0) {
+					break;
+				}
+				j++;
+			}
+			
+			Mezccla(a, primero, i, j);
+			primero = 0;
+			
+			if(estaOrdenado(a)) {
+				break;
+			}			
+		}
 	}
+	
+	
 	
 }
 
