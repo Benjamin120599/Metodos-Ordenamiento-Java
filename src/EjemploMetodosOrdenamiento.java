@@ -1,4 +1,13 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
+
+
 
 class MetodosOrdenamiento {
 	
@@ -282,6 +291,13 @@ class MetodosOrdenamiento {
 		
 	}
 	
+	public void ordenamientoMezclaDirecta(int[] numeros) {
+		
+		
+		
+		
+	}
+	
 	public void mostrarVector(int[] vector) {
 		
 		long contador = 0;
@@ -308,7 +324,7 @@ class MetodosOrdenamiento {
 		System.out.println("TIEMPO DE EJECUCION: "+(tiempoFinal/1e6)+" ms");
 		
 	}
-	
+
 	public int[] vector1000() {
 		int[] vector = new int[1000];
 		int numeroAleatorio = 0;
@@ -378,6 +394,7 @@ public class EjemploMetodosOrdenamiento {
 			System.out.println("4) Ordenamiento ShellSort.");
 			System.out.println("5) Ordenamiento QuickSort.");
 			System.out.println("6) Ordenamiento RadixSort.");
+			System.out.println("7) Ordenamiento Intercalacion de archivos.");
 			System.out.println("0) Salir.");
 			System.out.println("----------------------------------------------------------------");
 			System.out.println();
@@ -504,6 +521,118 @@ public class EjemploMetodosOrdenamiento {
 					System.out.println();
 					break;
 					
+				case 7:
+					System.out.println();
+					System.out.println("---------------------------------------------------------------------------------");
+					System.out.println();
+					
+					System.out.println("=========== INTERCALACIÓN DE ARCHIVOS ===========\n");
+					System.out.println();
+					
+					File archivo1 = new File("./src/Archivo1.txt");//Archivos a leer
+					File archivo2 = new File("./src/Archivo2.txt");//Archivos a leer
+							
+					FileReader frA1 = null;
+					BufferedReader brA1;
+					FileReader frA2 = null;
+					BufferedReader brA2;
+					
+					FileWriter archivo3=null;
+					PrintWriter pr=null;
+					
+					try{//Apertura del archivo de salida para escritura
+						archivo3=new FileWriter("./src/ArchivoSalida.txt", false);
+						pr=new PrintWriter(archivo3);
+						
+						try {//Apertura del archivo1 para lectura
+							frA1=new FileReader(archivo1);
+							brA1=new BufferedReader(frA1);
+							String lineaArchivo1;
+							
+							try {//Apertura del archivo2 para lectura
+								frA2=new FileReader(archivo2);
+								brA2=new BufferedReader(frA2);
+								String lineaArchivo2;
+								boolean repetir=true;
+								
+								lineaArchivo1=brA1.readLine();
+								lineaArchivo2=brA2.readLine();
+													
+								do{//Se realizan comparaciones mientras la bandera no cambie
+									if(Integer.parseInt(lineaArchivo1)<Integer.parseInt(lineaArchivo2)){
+										pr.println(lineaArchivo1);
+										if((lineaArchivo1=brA1.readLine())==null){
+											pr.println(lineaArchivo2);
+											while((lineaArchivo2=brA2.readLine())!=null){
+												pr.println(lineaArchivo2);
+											}
+											repetir=false;
+										}
+									}
+									else if(Integer.parseInt(lineaArchivo1)>Integer.parseInt(lineaArchivo2)){
+										pr.println(lineaArchivo2);
+										if((lineaArchivo2=brA2.readLine())==null){
+											pr.println(lineaArchivo1);
+											while((lineaArchivo1=brA1.readLine())!=null){
+												pr.println(lineaArchivo1);
+											}
+											repetir=false;
+										}
+									}
+									else{
+										pr.println(lineaArchivo1);
+										pr.println(lineaArchivo2);
+										if((lineaArchivo1=brA1.readLine())==null){
+											pr.println(lineaArchivo2);
+											while((lineaArchivo2=brA2.readLine())!=null){
+												pr.println(lineaArchivo2);
+											}
+											repetir=false;
+										}
+										if((lineaArchivo2=brA2.readLine())==null){
+											pr.println(lineaArchivo1);
+											while((lineaArchivo1=brA1.readLine())!=null){
+												pr.println(lineaArchivo1);
+											}
+											repetir=false;
+										}
+									}
+								}while(repetir);
+							} catch (FileNotFoundException e) {
+								System.out.println("Error al abrir el archivo");
+								//e.printStackTrace();
+							} catch (IOException e) {
+								e.printStackTrace();
+							}finally{
+								try {
+									frA2.close();
+								} catch (IOException e) {
+									System.out.println("Error al cerrar el archivo");
+								}	
+							}//Final del archivo2
+						} catch (FileNotFoundException e) {
+							System.out.println("Error al abrir el archivo");
+							//e.printStackTrace();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}finally{
+							try {
+								frA1.close();
+							} catch (IOException e) {
+								System.out.println("Error al cerrar el archivo");
+							}
+						}//Final del archivo1
+						System.out.println("Archivos combinados y ordenados correctamente");
+					}catch (IOException e){
+						System.out.println("Error al abrir o crear el archivo");
+					}finally{
+						try{
+							archivo3.close();
+						}catch(IOException e){
+							System.out.println("Error al cerrar el archivo");
+						}
+					}//Final del archivo3	
+					break;
 				case 0:
 					System.out.println("S A L I E N D O . . .");
 					break;
