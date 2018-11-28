@@ -61,7 +61,9 @@ class MezclaNatural {
 		return true;
 	}
 	
-	
+	public static void ordenamientoMezclaNatural(Comparable[] a, int primero, int ultimo) {
+		
+	}
 	
 }
 
