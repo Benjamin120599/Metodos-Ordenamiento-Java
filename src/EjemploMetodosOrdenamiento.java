@@ -97,7 +97,26 @@ class MezclaNatural {
 		}
 	}
 	
-	
+	public static void Mezcla(Comparable[] a, int primero, int medio, int ultimo) {
+		
+		int i = primero;
+		int j = medio + 1;
+		
+		for(int k=primero; k <= ultimo; k++) {
+			aux[k] = a[k];
+		}
+		for(int k=primero; k <= ultimo; k++) {
+			if(i > medio) {
+				a[k] = aux[j++];
+			} else if (j > ultimo) {
+				a[k] = aux[i++];
+			} else if(aux[i].compareTo(aux[j]) > 0) {
+				a[k] = aux[j++];
+			} else {
+				a[k] = aux[i++];
+			}
+		}
+	}
 	
 }
 
