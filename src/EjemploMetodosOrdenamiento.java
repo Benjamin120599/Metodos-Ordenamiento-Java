@@ -43,6 +43,24 @@ class MezclaNatural {
 		return arr1;
 	}
 	
+	private static Comparable[] aux;
+	
+	public static void ordenamientoMezclaNatural(Comparable[] a) {
+		
+		aux = new Comparable[a.length];
+		ordenamientoMezclaNatural(a, 0, a.length -1);
+	}
+	
+	public static boolean estaOrdenado(Comparable[] a) {
+		
+		for(int i=1; i < a.length; i++) {
+			if(a[i-1].compareTo(a[i]) > 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	
 	
 }
