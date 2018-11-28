@@ -9,6 +9,42 @@ import java.util.Scanner;
 
 class MezclaNatural {
 	
+	public static Integer[] lectura() {
+		
+		File archivo1 = new File("./src/Archivo1.txt");
+		FileReader frA1 = null;
+		BufferedReader brA1;
+		Integer[] arr1 = new Integer[0];
+		
+		try {
+			frA1 = new FileReader(archivo1);
+			brA1 = new BufferedReader(frA1);
+			String lineaArchivo1;
+			
+			try {
+				lineaArchivo1 = brA1.readLine();
+				String[] numeros = lineaArchivo1.split(",");
+				arr1 = new Integer[numeros.length];
+				for(int i=0; i < numeros.length-1; i++) {
+					Integer intObj = new Integer(numeros[i]);
+					arr1[i] = intObj;
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			System.out.println("Error al abrir el archivo.");
+			e.printStackTrace();
+		} try {
+			frA1.close();			
+		} catch(IOException e) {
+			System.out.println("Error al cerrar el archivo.");
+		}
+		return arr1;
+	}
+	
+	
+	
 }
 
 
