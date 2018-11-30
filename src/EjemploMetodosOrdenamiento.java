@@ -5,120 +5,171 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
-class MezclaNatural {
-	
+class MezclaNatural{
+	 
 	public static Integer[] lectura() {
 		
-		File archivo1 = new File("./src/Archivo1.txt");
-		FileReader frA1 = null;
-		BufferedReader brA1;
-		Integer[] arr1 = new Integer[0];
+		MetodosOrdenamiento m = new MetodosOrdenamiento();
 		
-		try {
-			frA1 = new FileReader(archivo1);
-			brA1 = new BufferedReader(frA1);
+		int[] aux = m.vector1000();
+		
+		FileWriter f1 = null;
+        PrintWriter p1 = null;
+        try {
+        	f1 = new FileWriter("./src/Arch1.txt");
+            p1 = new PrintWriter(f1);
+            for (int i=0; i < aux.length; i++)
+                p1.print(aux[i]+",");
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+           try {
+	           if (null != f1)
+	              f1.close();
+           } catch (Exception e2) {
+              e2.printStackTrace();
+           }
+          
+        }
+		
+		File archivo1=new File("./src/Arch1.txt");
+		FileReader frA1=null;
+		BufferedReader brA1;
+		Integer[] arr1=new Integer[0];
+		
+		try { //Se lee el archivo
+			frA1=new FileReader(archivo1);
+			brA1=new BufferedReader(frA1);
 			String lineaArchivo1;
-			
 			try {
 				lineaArchivo1 = brA1.readLine();
-				String[] numeros = lineaArchivo1.split(",");
-				arr1 = new Integer[numeros.length];
-				for(int i=0; i < numeros.length-1; i++) {
-					Integer intObj = new Integer(numeros[i]);
-					arr1[i] = intObj;
-				}
+				String [] numeros= lineaArchivo1.split(",");
+				arr1=new Integer[numeros.length];
+				for(int i=0; i<=numeros.length-1; i++) {
+					 Integer intObj = new Integer(numeros[i]);
+					 arr1[i]=intObj;
+				 }
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} catch (FileNotFoundException e) {
-			System.out.println("Error al abrir el archivo.");
+			System.out.println("Error al abrir el archivo");
 			e.printStackTrace();
-		} try {
-			frA1.close();			
-		} catch(IOException e) {
-			System.out.println("Error al cerrar el archivo.");
+		}try {
+			frA1.close();
+		}catch(IOException e) {
+			System.out.println("Error al cerrar el archivo");
 		}
 		return arr1;
 	}
 	
 	private static Comparable[] aux;
 	
-	public static void ordenamientoMezclaNatural(Comparable[] a) {
-		
-		aux = new Comparable[a.length];
-		ordenamientoMezclaNatural(a, 0, a.length -1);
+	public static void ordenamientoMezclaNatural(Comparable[] a) { //Originalmente es el                                                  
+		aux = new Comparable[a.length];                              // que se manda a llamar
+		ordenamientoMezclaNatural(a, 0, a.length - 1);
+		mostrar(a);
 	}
 	
-	public static boolean estaOrdenado(Comparable[] a) {
-		
-		for(int i=1; i < a.length; i++) {
-			if(a[i-1].compareTo(a[i]) > 0) {
+	public static boolean estaOrdenado(Comparable[] a) { //Para ver si el arreglo ya esta ordenado
+		for (int i = 1; i < a.length; i += 1) {
+			if (a[i - 1].compareTo(a[i]) > 0) {
 				return false;
 			}
 		}
 		return true;
 	}
 	
-	public static void ordenamientoMezclaNatural(Comparable[] a, int primero, int ultimo) {
-		
+	//Se sobrecarga el metodo con diferentes parametros
+	private static void ordenamientoMezclaNatural(Comparable[] a, int primero, int ultimo) { 
 		int i = primero;
 		int j = 0;
 		int medio = 0;
 		int az = 0;
-		
-		while(true) {
-			i=0;
-			while(i < a.length) {
-				if(i == a.length - 1) {
+		while (true) {
+			i = 0;
+			while (i < a.length) {
+				if (i == a.length - 1) {
 					break;
-				} else if(a[i].compareTo(i+1) > 0) {
+				} else if(a[i].compareTo(a[i + 1]) > 0) {
 					break;
 				}
 				i++;
 			}
-			j = i+1;
-			while(j < a.length) {
-				if(j == a.length-1) {
+			j = i + 1;
+			while (j < a.length) {
+				if (j == a.length - 1) {
 					break;
-				} else if(a[j].compareTo(a[j+1]) > 0) {
+				} else if(a[j].compareTo(a[j + 1]) > 0) {
 					break;
 				}
 				j++;
 			}
-			
+			//      medio = primero + (j - primero) / 2;
+	  
 			Mezcla(a, primero, i, j);
 			primero = 0;
-			
-			if(estaOrdenado(a)) {
+
+			if (estaOrdenado(a)) {
 				break;
-			}			
+			}
 		}
 	}
 	
 	public static void Mezcla(Comparable[] a, int primero, int medio, int ultimo) {
-		
 		int i = primero;
 		int j = medio + 1;
-		
-		for(int k=primero; k <= ultimo; k++) {
+		for (int k = primero; k <= ultimo; k++) {
 			aux[k] = a[k];
 		}
-		for(int k=primero; k <= ultimo; k++) {
+		for (int k = primero; k <= ultimo; k++) {
 			if(i > medio) {
 				a[k] = aux[j++];
-			} else if (j > ultimo) {
+			} else if(j > ultimo) {
 				a[k] = aux[i++];
-			} else if(aux[i].compareTo(aux[j]) > 0) {
+			} else if (aux[i].compareTo(aux[j]) > 0) {
 				a[k] = aux[j++];
 			} else {
 				a[k] = aux[i++];
 			}
 		}
+	 }
+	
+	public static void mostrar(Comparable[] a) {
+		
+		
+		 FileWriter arc = null;
+	     PrintWriter esc = null;
+	        
+	     try {
+	    	 arc = new FileWriter("./src/ArchivoOrdenado.txt");
+	    	 esc = new PrintWriter(arc);
+	    	 for (int i = 0; i < a.length; i++) {
+	 			System.out.print(a[i] + " ");
+	 			esc.print(a[i]+",");
+	 	     }    		 
+	    	 //System.out.println("Archivo Ordenado");		        	
+	     } catch (Exception e) {
+	    	 e.printStackTrace();
+	     } finally {
+	    	 try {
+	    		 if (null != arc)
+	    			 arc.close();
+	    	 } catch (Exception e2) {
+	    		 e2.printStackTrace();
+	    	 }  
+	     }
+		
+	     
 	}
 	
-}
+}//Class MezclaNatural
 
 
 class MetodosOrdenamiento {
@@ -350,6 +401,39 @@ class MetodosOrdenamiento {
 		
 		mostrarDatosEficiencia(contRecorrido7, contComparaciones7, contIntercambios7, tiempoFinal); 		
 	
+		
+	}
+	
+	public int[] ordenamientoQuickSortRetorno(int[] vector, int izquierda, int derecha) {
+		
+		int pivote = vector[izquierda];
+        int i = izquierda;
+        int j = derecha;
+        int auxIntercambio;
+        while (i < j) {
+            while (vector[i] <= pivote && i < j) {
+                i++;
+            }
+            while (vector[j] > pivote) {
+                j--;
+            }
+            if (i < j) {
+                auxIntercambio = vector[i];
+                vector[i] = vector[j];
+                vector[j] = auxIntercambio;
+            }
+        }
+        vector[izquierda] = vector[j];
+        vector[j] = pivote;
+        if (izquierda < j - 1) {
+            ordenamientoQuickSortRetorno(vector, izquierda, j - 1);
+        }
+        if (j + 1 < derecha) {
+        	ordenamientoQuickSortRetorno(vector, j + 1, derecha);
+        }
+			
+		return vector;
+		
 	}
 
 	public void ordenamientoRadixSort(int[] numeros) {
@@ -532,6 +616,8 @@ public class EjemploMetodosOrdenamiento {
 			System.out.println("5) Ordenamiento QuickSort.");
 			System.out.println("6) Ordenamiento RadixSort.");
 			System.out.println("7) Ordenamiento Intercalacion de archivos.");
+			System.out.println("8) Ordenamiento Mezcla Directa.");
+			System.out.println("9) Ordenamiento Mezcla Natural.");
 			System.out.println("0) Salir.");
 			System.out.println("----------------------------------------------------------------");
 			System.out.println();
@@ -669,7 +755,48 @@ public class EjemploMetodosOrdenamiento {
 					File archivo1 = new File("./src/Archivo1.txt");//Archivos a leer
 					File archivo2 = new File("./src/Archivo2.txt");//Archivos a leer
 							
-					int arreglo1 = mo.vector1000();
+					int[] arr1 = mo.vector1000();
+					int[] arr2 = mo.vector1000();
+					
+					int[] aux1 =  mo.ordenamientoQuickSortRetorno(arr1, 0, arr1.length-1);
+					int[] aux2 =  mo.ordenamientoQuickSortRetorno(arr2, 0, arr2.length-1);
+					
+					
+					FileWriter fichero1 = null;
+					FileWriter fichero2 = null;
+			        PrintWriter pw = null;
+			        PrintWriter pw2 = null;
+			        try {
+			        	fichero1 = new FileWriter("./src/Archivo1.txt");
+						fichero2 = new FileWriter("./src/Archivo2.txt");
+			        	
+			            pw = new PrintWriter(fichero1);
+			            pw2 = new PrintWriter(fichero2);
+			            for (int i=0; i < aux1.length; i++)
+			                pw.println(aux1[i]);
+			            for (int i=0; i < aux2.length; i++)
+			                pw2.println(aux2[i]);
+
+			        } catch (Exception e) {
+			            e.printStackTrace();
+			        } finally {
+			           try {
+				           if (null != fichero1)
+				              fichero1.close();
+			           } catch (Exception e2) {
+			              e2.printStackTrace();
+			           }
+			           try {
+				           if (null != fichero2)
+				              fichero2.close();
+			           } catch (Exception e2) {
+			              e2.printStackTrace();
+			           }
+			           
+			        }
+					
+					
+					
 					
 					FileReader frA1 = null;
 					BufferedReader brA1;
@@ -772,9 +899,81 @@ public class EjemploMetodosOrdenamiento {
 						}
 					}//Final del archivo3	
 					break;
+				case 8:
+					System.out.println();
+					System.out.println("---------------------------------------------------------------------------------");
+					System.out.println();
+					
+					System.out.println("=========== ORDENAMIENTO MEZCLA DIRECTA ===========\n");
+					
+					int[] vec = arreglo1.clone();
+					
+					FileWriter a1 = null;
+			        PrintWriter imp = null;
+			        
+			        try {
+			        	a1 = new FileWriter("./src/task.txt");
+			        	
+			            imp = new PrintWriter(a1);
+			            for (int i=0; i < vec.length; i++)
+			                imp.println(vec[i]);
+			            
+			        } catch (Exception e) {
+			            e.printStackTrace();
+			        } finally {
+			           try {
+				           if (null != a1)
+				              a1.close();
+			           } catch (Exception e2) {
+			              e2.printStackTrace();
+			           }
+			        }
+					
+			        try {
+			            BufferedReader br = new BufferedReader(new FileReader("./src/task.txt"));
+			            List<Integer> lines = new ArrayList<Integer>();
+			            String line;
+			            while ((line = br.readLine()) != null) {
+			                lines.add(Integer.parseInt(line));
+			            }
+			            br.close();
+			            Integer[] inputArray = lines.toArray(new Integer[lines.size()]);
+			            mo.ordenamientoMezclaDirecta(inputArray, 0, inputArray.length - 1);
+			            
+			            FileWriter arc = null;
+				        PrintWriter esc = null;
+				        
+				        try {
+				        	arc = new FileWriter("./src/ArchivoOrdenado.txt");
+				        	esc = new PrintWriter(arc);
+				        	for (Integer i : inputArray)
+					        	esc.println(inputArray[i]);
+				        	System.out.println("Archivo Ordenado");		        	
+				        } catch (Exception e) {
+				        	e.printStackTrace();
+				        } finally {
+					           try {
+						           if (null != arc)
+						              arc.close();
+					           } catch (Exception e2) {
+					              e2.printStackTrace();
+					           }
+					         
+					      }
+			        } catch (IOException ie) {
+			            System.out.print(ie.getMessage());
+			        }
+			        break;
+				case 9:
+					MezclaNatural mn = new MezclaNatural();
+					//mn.mostrar(mn.lectura());
+					mn.ordenamientoMezclaNatural(mn.lectura());
+					break;
+				
 				case 0:
 					System.out.println("S A L I E N D O . . .");
 					break;
+					
 			}
 		
 		}while(opcion != 0);
